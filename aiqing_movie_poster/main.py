@@ -15,7 +15,7 @@ def deal_pic(url, name):
 
 
 def get_poster():
-    for i in range(0, 9000, 20):
+    for i in range(0, 10000, 20):
         url = 'https://movie.douban.com/j/new_search_subjects?sort=U&range=0,10&tags=电影&start=%s&genres=爱情' % i
         req = requests.get(url).text
         req_dict = json.loads(req)
