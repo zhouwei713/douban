@@ -4,7 +4,7 @@
 @time:2019/2/23 16:50
 """
 
-from pyecharts import Line, Map
+from pyecharts import Line, Map, Bar, Overlap
 import pandas as pd
 import jieba
 from wordcloud import WordCloud
@@ -22,6 +22,41 @@ def zhexian(data):
     line.add("wuyong", data['name'], data['wuyong'], xaxis_rotate=45)
     line.add("reply", data['name'], data['reply'], xaxis_rotate=45)
     line.render()
+
+
+# 星级对比
+def star(data):
+    line = Line('star compare', width=1000, height=400)
+    line.add("dashen star", data['name'], data['star'], xaxis_rotate=45)
+    movie_star = data['movie_star']/10
+    line.add("movie star", data['name'], movie_star, xaxis_rotate=45)
+    line.render()
+
+
+def star2(data):
+    bar = Bar("star compare", width=1000, height=400)
+    bar.add("dashen star", data['name'], data['star'], xaxis_rotate=45, is_label_show=True, is_datazoom_show=True)
+    movie_star = data['movie_star'] / 10
+    bar.add("movie star", data['name'], movie_star, xaxis_rotate=45, is_label_show=True, is_datazoom_show=True)
+    bar.render()
+
+
+def overlap(data):
+    # line
+    line = Line('star compare', width=1000, height=400)
+    line.add("dashen star line", data['name'], data['star'], xaxis_rotate=45)
+    movie_star = data['movie_star']/10
+    line.add("movie star line", data['name'], movie_star, xaxis_rotate=45)
+    # bar
+    bar = Bar("star compare", width=1000, height=400)
+    bar.add("dashen star bar", data['name'], data['star'], xaxis_rotate=45, is_label_show=True, is_datazoom_show=True)
+    movie_star = data['movie_star'] / 10
+    bar.add("movie star bar", data['name'], movie_star, xaxis_rotate=45, is_label_show=True, is_datazoom_show=True)
+    # overlap
+    overlap = Overlap()
+    overlap.add(bar)
+    overlap.add(line)
+    overlap.render()
 
 
 # 词云 total
@@ -69,8 +104,9 @@ def ditu(data):
 
 if __name__ == "__main__":
     data = pd.read_csv('best_review.csv')
-    ditu(data)
+    # ditu(data)
     # zhexian(data)
+    overlap(data)
 
 
 
